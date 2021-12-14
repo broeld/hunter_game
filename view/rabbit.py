@@ -1,6 +1,6 @@
 import pygame
 
-from bullet import Bullet
+from view.bullet import Bullet
 from view.abstract import Wander, Flee
 from view.utils import Colors
 
@@ -10,7 +10,7 @@ class Rabbit(Wander, Flee):
         super().__init__(groups, position, size)
         self.max_velocity = 0.6
         self.max_force = 1
-        self.color = Colors.LIGHT_GREY
+        self.color = Colors.LIGHT_GREY.value
 
         self.rectangle(self.color)
 

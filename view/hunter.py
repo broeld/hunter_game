@@ -1,6 +1,7 @@
 import pygame
 
 from view.abstract import Seeker
+from view.utils import Colors
 
 
 class Hunter(Seeker):
@@ -14,7 +15,7 @@ class Hunter(Seeker):
 
         self.max_velocity = 1
         self.max_force = 1
-        self.color = Colors.YELLOW
+        self.color = Colors.YELLOW.value
         self.destination = self.position
 
         self.rectangle(self.color)

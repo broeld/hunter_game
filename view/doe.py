@@ -4,6 +4,7 @@ import pygame
 
 from view.abstract import Wander, Flee, GroupBehaviors
 from view.rabbit import Rabbit
+from view.utils import Colors
 
 
 class Doe(Wander, GroupBehaviors, Flee):
@@ -11,7 +12,7 @@ class Doe(Wander, GroupBehaviors, Flee):
         super().__init__(groups, position, size)
         self.max_velocity = 0.3
         self.max_force = 1
-        self.color = Colors.ORANGE
+        self.color = Colors.ORANGE.value
 
         self.rectangle(self.color)
 

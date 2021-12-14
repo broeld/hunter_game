@@ -2,6 +2,8 @@ from random import randint
 
 import pygame.sprite
 
+from view.utils import Colors
+
 
 class Animal(pygame.sprite.Sprite):
     def __init__(
@@ -15,9 +17,9 @@ class Animal(pygame.sprite.Sprite):
         self.position = pygame.Vector2(position)
         self.size = size
 
-        self.max_velocity = 0
-        self.max_force = 0
-        self.color = (0, 0, 0)
+        self.max_velocity = 1
+        self.max_force = 1
+        self.color = Colors.BLACK.value
 
         self.rectangle(self.color)
 

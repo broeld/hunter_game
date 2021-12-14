@@ -2,7 +2,7 @@ from enum import Enum
 
 
 class WanderingConst(Enum):
-    WANDERING_DISTANCE = 60
+    WANDERING_DISTANCE = 600
     WANDERING_RADIUS = 20
 
 

@@ -1,5 +1,5 @@
 
-from bullet import Bullet
+from view.bullet import Bullet
 from view.abstract import Wander
 from view.utils import Colors
 
@@ -9,7 +9,10 @@ class Wolf(Wander):
         super().__init__(groups, position, size)
         self.max_velocity = 0.4
         self.max_force = 1
-        self.color = Colors.DARK_GREY
+        self.color = Colors.DARK_GREY.value
+        self.max_hp = 100000
+
+        self.current_hp = self.max_hp
 
         self.rectangle(self.color)
 
@@ -22,7 +25,7 @@ class Wolf(Wander):
         destinations = {
             animal: (animal.position - self.position).length()
             for animal in self.animals_around
-            if not isinstance(animal, Wolf) or not isinstance(animal, Bullet)
+            if not isinstance(animal, Wolf) and not isinstance(animal, Bullet)
         }
         closest_animal = None
 
@@ -34,10 +37,16 @@ class Wolf(Wander):
     def check_collision(self, target):
         return (target - self.position).length() < 5
 
+    def fulfill_hp(self):
+        self.current_hp = self.max_hp
+
     def update(self):
         self.forces = []
         self.calculate_animals_around()
         avoid = self.avoid_walls()
+
+        if not self.current_hp:
+            self.kill()
 
         if avoid.length() == 0:
             if self.animals_around:
@@ -45,6 +54,7 @@ class Wolf(Wander):
                 if target:
                     if self.check_collision(target.position):
                         target.kill()
+                        self.fulfill_hp()
                         self.acceleration = self.wandering()
                     else:
                         self.acceleration = self.seek(target.position)
@@ -52,6 +62,8 @@ class Wolf(Wander):
                 self.acceleration = self.wandering()
         else:
             self.acceleration = avoid
+
+        self.current_hp -= 1
 
         if self.velocity != self.max_velocity:
             self.velocity += self.acceleration

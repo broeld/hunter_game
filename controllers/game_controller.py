@@ -7,6 +7,7 @@ from view.bullet import Bullet
 from view.hunter import Hunter
 from view.doe import Doe
 from view.rabbit import Rabbit
+from view.utils import Colors
 from view.wolf import Wolf
 
 
@@ -30,8 +31,8 @@ class GameController:
             self.win_width,
             self.win_height,
             self.border,
-            Colors.BLACK,
-            Colors.WHITE
+            Colors.BLACK.value,
+            Colors.WHITE.value
         )
 
         pygame.display.flip()
@@ -52,8 +53,8 @@ class GameController:
                         Bullet(self.all_sprites, hunter.position, 5, mouse_pos)
 
             self.update_window(
-                Colors.BLACK,
-                Colors.WHITE,
+                Colors.BLACK.value,
+                Colors.WHITE.value,
                 self.border
             )
 
