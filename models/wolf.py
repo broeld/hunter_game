@@ -1,20 +1,15 @@
-
-from view.bullet import Bullet
-from view.abstract import Wander
+from models.abstract import Wander
+from models.bullet import Bullet
 from view.utils import Colors
 
 
 class Wolf(Wander):
     def __init__(self, groups, position, size):
         super().__init__(groups, position, size)
-        self.max_velocity = 0.4
+        self.max_velocity = 0.45
         self.max_force = 1
-        self.color = Colors.DARK_GREY.value
         self.max_hp = 100000
-
         self.current_hp = self.max_hp
-
-        self.rectangle(self.color)
 
         self.separation_radius = self.size * 6
         self.alignment_radius = self.size * 0
@@ -23,9 +18,9 @@ class Wolf(Wander):
 
     def chose_seek_target(self):
         destinations = {
-            animal: (animal.position - self.position).length()
+            animal: (animal.animal.position - self.position).length()
             for animal in self.animals_around
-            if not isinstance(animal, Wolf) and not isinstance(animal, Bullet)
+            if not isinstance(animal.animal, Wolf) and not isinstance(animal.animal, Bullet)
         }
         closest_animal = None
 
@@ -52,14 +47,14 @@ class Wolf(Wander):
             if self.animals_around:
                 target = self.chose_seek_target()
                 if target:
-                    if self.check_collision(target.position):
+                    if self.check_collision(target.animal.position):
                         target.kill()
                         self.fulfill_hp()
                         self.acceleration = self.wandering()
                     else:
-                        self.acceleration = self.seek(target.position)
+                        self.acceleration += self.seek(target.animal.position)
             else:
-                self.acceleration = self.wandering()
+                self.acceleration += self.wandering()
         else:
             self.acceleration = avoid
 
@@ -70,5 +65,3 @@ class Wolf(Wander):
         if self.velocity.length() > self.max_velocity:
             self.velocity.scale_to_length(self.max_velocity)
         self.position += self.velocity
-        self.rect.center = self.position
-
